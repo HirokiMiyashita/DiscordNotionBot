@@ -1,8 +1,7 @@
 import { Client } from "@notionhq/client";
 
-// 自身の利用するデータベースID
 
-// アクセストークン
+
 
 // Initializing a client
 export const main = async (message) => {
@@ -10,7 +9,7 @@ export const main = async (message) => {
 
   // ページに追加するデータ
   const properties = {
-    名前: {
+    タスク内容: {
       title: [
         {
           text: {
@@ -19,23 +18,18 @@ export const main = async (message) => {
         },
       ],
     },
-    タグ: {
+    プロジェクト名: {
       multi_select: [
-        // タグは multi_select タイプ
         {
           name: message.secondLine,
         },
       ],
     },
-    テキスト: {
-      rich_text: [
-        // テキストは rich_text タイプ
-        {
-          text: {
-            content: message.thirdLine,
-          },
-        },
-      ],
+    納期: {
+      date: {
+        start: new Date(message.thirdLine).toISOString(),
+        end: null, // 終了日がない場合はnull
+      },
     },
     // 他のプロパティも必要に応じて設定
   };

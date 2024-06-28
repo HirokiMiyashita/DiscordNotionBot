@@ -15,7 +15,7 @@ client.on("messageCreate", async (message) => {
 
   if (message.content === "タスクを作成したい") {
     message.channel.send(
-      "タスクを作成したいのであれば\nタスク名\nタグ\n詳細\n上記に順に送ってください\nそれぞれ改行は必須です\n行の先頭に「新規作成」と書いてください"
+      "タスクを作成したいのであれば\nタスク内容\nプロジェクト名\n納期\n上記に順に送ってください\nそれぞれ改行は必須です\n行の先頭に「新規作成」と書いてください"
     );
   }
   if (message.content.startsWith("新規作成")) {
@@ -23,15 +23,15 @@ client.on("messageCreate", async (message) => {
 
     if (lines.length < 4) {
       message.channel.send(
-        "入力形式が正しくありません。タスク名、タグ、詳細をそれぞれ改行して入力してください。"
+        "入力形式が正しくありません。タスク内容、プロジェクト名、納期をそれぞれ改行して入力してください。"
       );
       return;
     }
 
     const dataObject = {
-      firstLine: lines[1] || "デフォルトタスク名", // デフォルト値を設定
-      secondLine: lines[2] || "デフォルトタグ", // デフォルト値を設定
-      thirdLine: lines[3] || "デフォルト詳細", // デフォルト値を設定
+      firstLine: lines[1] || "", // デフォルト値を設定
+      secondLine: lines[2] || "", // デフォルト値を設定
+      thirdLine: lines[3] || "", // デフォルト値を設定
     };
 
     try {
@@ -49,3 +49,4 @@ client.on("messageCreate", async (message) => {
 client.on("ready", () => {
   console.log("ボットが起動したよ");
 });
+
