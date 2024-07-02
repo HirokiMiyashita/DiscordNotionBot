@@ -82,6 +82,15 @@ export const main = async (message) => {
     const { userName: staffUserName, userId: staffUserId } = await getUserNameFromMention(message.fourthLine);
     const { userName: requesterUserName, userId: requesterUserId } = await getUserNameFromMention(message.fifthLine);
 
+
+
+    // Discordからの日付入力（M/Dの形式）を処理する
+    const userInput = message.thirdLine; // 例えば '7/2'
+    const currentYear = new Date().getFullYear(); // 現在の年を取得
+    const [month, day] = userInput.split('/').map(Number); // 月と日を取得
+    const thirdLineDate = new Date(currentYear, month - 1, day); // 今年の日付を作成
+    const formattedDate = `${currentYear}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`;
+
     const properties = {
       タスク内容: {
         title: [
@@ -101,7 +110,7 @@ export const main = async (message) => {
       },
       納期: {
         date: {
-          start: new Date(message.thirdLine).toISOString(),
+          start: formattedDate,
           end: null, 
         },
       },
