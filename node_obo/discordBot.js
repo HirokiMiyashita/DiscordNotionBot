@@ -49,3 +49,5 @@ client.on("messageCreate", async (message) => {
   }
 });
 
+client.login("discordBot_number");
+
