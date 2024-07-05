@@ -1,8 +1,8 @@
 import { Client } from "@notionhq/client";
 
-const auth = "secret_GdUiSzmZmftXnsuz9S2fyTxo4jQKxloZE046CnosFQ5"; // あなたのNotion APIキーを設定
-const taskDatabaseId = "0f308e8429184c048dd1141259a98a58"; // タスクを追加するデータベースID
-const userDatabaseId = "640fd07f555c43ed8f972edf393f83bf"; // 担当者とユーザーIDが対応しているデータベースID
+const auth = "secret_FSG0uhPzTrO000XRMoLjHLgWmzVIF3DVPmGoSvBY0ar"; // あなたのNotion APIキーを設定
+const taskDatabaseId = "b8ef6ca8259048eaa447d3c62cfec395"; // タスクを追加するデータベースID
+const userDatabaseId = "60b8acc2deec43f8a4891b8e4c8dc46e"; // 担当者とユーザーIDが対応しているデータベースID
 
 const notion = new Client({ auth });
 
@@ -81,7 +81,7 @@ const getMaxIdNumberForPrefix = async (prefix) => {
 // 新しいページを作成する関数
 export const main = async (message) => {
   try {
-    const prefix = "OBO"; // 必要に応じてプレフィックスを変更
+    const prefix = "RAY"; // 必要に応じてプレフィックスを変更
     const maxIdNumber = await getMaxIdNumberForPrefix(prefix);
     const newIdNumber = maxIdNumber + 1;
     const newId = `${prefix}-${String(newIdNumber).padStart(3, '0')}`;
@@ -122,7 +122,7 @@ export const main = async (message) => {
       サーバー: {
         multi_select: [
           {
-            name: "オーボ",
+            name: "RAYSEE",
           },
         ],
       },
