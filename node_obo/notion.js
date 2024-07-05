@@ -35,8 +35,8 @@ const getUserNameFromMention = async (mention) => {
   return { userName, userId: userNameProperty.people[0].id };
 };
 
-// 現在の最大ID番号を取得する関数
-const getMaxIdNumber = async () => {
+// 特定のプレフィックスの最大ID番号を取得する関数
+const getMaxIdNumberForPrefix = async (prefix) => {
   let maxIdNumber = 0;
   let hasMore = true;
   let startCursor = undefined;
@@ -44,14 +44,20 @@ const getMaxIdNumber = async () => {
   while (hasMore) {
     const response = await notion.databases.query({
       database_id: taskDatabaseId,
+      filter: {
+        property: 'ID',
+        rich_text: {
+          starts_with: prefix,
+        },
+      },
       sorts: [
         {
           property: 'ID',
-          direction: 'descending'
-        }
+          direction: 'descending',
+        },
       ],
       start_cursor: startCursor,
-      page_size: 100
+      page_size: 100,
     });
 
     response.results.forEach(page => {
@@ -75,14 +81,13 @@ const getMaxIdNumber = async () => {
 // 新しいページを作成する関数
 export const main = async (message) => {
   try {
-    const maxIdNumber = await getMaxIdNumber();
+    const prefix = "OBO"; // 必要に応じてプレフィックスを変更
+    const maxIdNumber = await getMaxIdNumberForPrefix(prefix);
     const newIdNumber = maxIdNumber + 1;
-    const newId = `OBO-${String(newIdNumber).padStart(3, '0')}`;
+    const newId = `${prefix}-${String(newIdNumber).padStart(3, '0')}`;
 
     const { userName: staffUserName, userId: staffUserId } = await getUserNameFromMention(message.fourthLine);
     const { userName: requesterUserName, userId: requesterUserId } = await getUserNameFromMention(message.fifthLine);
-
-
 
     // Discordからの日付入力（M/Dの形式）を処理する
     const userInput = message.thirdLine; // 例えば '7/2'
@@ -111,7 +116,7 @@ export const main = async (message) => {
       納期: {
         date: {
           start: formattedDate,
-          end: null, 
+          end: null,
         },
       },
       サーバー: {

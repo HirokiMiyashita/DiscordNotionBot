@@ -49,10 +49,9 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-client.on("ready", () => {
-  console.log("ボットが起動したよ");
-});
-
 client.login(
   "DiscordBotトークン"
 );
+
+
+

@@ -49,5 +49,13 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-client.login("discordBot_number");
+client.on("ready", () => {
+  console.log("ボットが起動したよ");
+});
+
+
+
+client.login(
+  "DiscordBotトークン"
+);
 
