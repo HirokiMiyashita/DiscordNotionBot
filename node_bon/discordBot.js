@@ -1,6 +1,7 @@
 import { Client as DiscordClient, GatewayIntentBits } from "discord.js";
 import { main } from "./notion.js";
 
+
 const client = new DiscordClient({
   intents: [
     GatewayIntentBits.Guilds,
@@ -48,9 +49,4 @@ client.on("messageCreate", async (message) => {
     }
   }
 });
-
-client.on("ready", () => {
-  console.log("ボットが起動したよ");
-});
-
 client.login(process.env.DISCORD_BOT_TOKEN);

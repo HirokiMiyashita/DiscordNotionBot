@@ -1,10 +1,11 @@
-import { Client } from "@notionhq/client";
+import { Client as DiscordClient, GatewayIntentBits } from "discord.js";
+import { Client as NotionClient } from "@notionhq/client";
+
 
 const notion = new NotionClient({ auth: process.env.NOTION_API_KEY });
 const taskDatabaseId = process.env.TASK_DATABASE_ID;
 const userDatabaseId = process.env.USER_DATABASE_ID;
 
-// DiscordメンションからユーザーIDを抽出し、Notionのユーザー名を取得する関数
 const getUserNameFromMention = async (mention) => {
   const userId = mention.replace(/[<@!>]/g, "").trim();
 
@@ -33,8 +34,7 @@ const getUserNameFromMention = async (mention) => {
   return { userName, userId: userNameProperty.people[0].id };
 };
 
-// 特定のプレフィックスの最大ID番号を取得する関数
-const getMaxIdNumberForPrefix = async (prefix) => {
+const getMaxIdNumber = async () => {
   let maxIdNumber = 0;
   let hasMore = true;
   let startCursor = undefined;
@@ -42,20 +42,14 @@ const getMaxIdNumberForPrefix = async (prefix) => {
   while (hasMore) {
     const response = await notion.databases.query({
       database_id: taskDatabaseId,
-      filter: {
-        property: 'ID',
-        rich_text: {
-          starts_with: prefix,
-        },
-      },
       sorts: [
         {
           property: 'ID',
-          direction: 'descending',
-        },
+          direction: 'descending'
+        }
       ],
       start_cursor: startCursor,
-      page_size: 100,
+      page_size: 100
     });
 
     response.results.forEach(page => {
@@ -76,23 +70,14 @@ const getMaxIdNumberForPrefix = async (prefix) => {
   return maxIdNumber;
 };
 
-// 新しいページを作成する関数
 export const main = async (message) => {
   try {
-    const prefix = "OBO"; // 必要に応じてプレフィックスを変更
-    const maxIdNumber = await getMaxIdNumberForPrefix(prefix);
+    const maxIdNumber = await getMaxIdNumber();
     const newIdNumber = maxIdNumber + 1;
-    const newId = `${prefix}-${String(newIdNumber).padStart(3, '0')}`;
+    const newId = `OBO-${String(newIdNumber).padStart(3, '0')}`;
 
     const { userName: staffUserName, userId: staffUserId } = await getUserNameFromMention(message.fourthLine);
     const { userName: requesterUserName, userId: requesterUserId } = await getUserNameFromMention(message.fifthLine);
-
-    // Discordからの日付入力（M/Dの形式）を処理する
-    const userInput = message.thirdLine; // 例えば '7/2'
-    const currentYear = new Date().getFullYear(); // 現在の年を取得
-    const [month, day] = userInput.split('/').map(Number); // 月と日を取得
-    const thirdLineDate = new Date(currentYear, month - 1, day); // 今年の日付を作成
-    const formattedDate = `${currentYear}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`;
 
     const properties = {
       タスク内容: {
@@ -113,14 +98,14 @@ export const main = async (message) => {
       },
       納期: {
         date: {
-          start: formattedDate,
-          end: null,
+          start: new Date(message.thirdLine).toISOString(),
+          end: null, 
         },
       },
       サーバー: {
         multi_select: [
           {
-            name: "オーボ",
+            name: "ボンボン",
           },
         ],
       },

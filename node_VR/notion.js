@@ -1,10 +1,8 @@
 import { Client } from "@notionhq/client";
 
-const auth = "secret_FSG0uhPzTrO000XRMoLjHLgWmzVIF3DVPmGoSvBY0ar"; // あなたのNotion APIキーを設定
-const taskDatabaseId = "b8ef6ca8259048eaa447d3c62cfec395"; // タスクを追加するデータベースID
-const userDatabaseId = "60b8acc2deec43f8a4891b8e4c8dc46e"; // 担当者とユーザーIDが対応しているデータベースID
-
-const notion = new Client({ auth });
+const notion = new NotionClient({ auth: process.env.NOTION_API_KEY });
+const taskDatabaseId = process.env.TASK_DATABASE_ID;
+const userDatabaseId = process.env.USER_DATABASE_ID;
 
 // DiscordメンションからユーザーIDを抽出し、Notionのユーザー名を取得する関数
 const getUserNameFromMention = async (mention) => {
