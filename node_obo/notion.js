@@ -1,4 +1,5 @@
-import { Client } from "@notionhq/client";
+import { Client as NotionClient } from "@notionhq/client";
+
 import dotenv from "dotenv";
 
 // 環境変数を読み込む
