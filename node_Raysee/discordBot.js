@@ -1,6 +1,11 @@
 import { Client as DiscordClient, GatewayIntentBits } from "discord.js";
 import { main } from "./notion.js";
 
+import dotenv from "dotenv";
+
+// 環境変数を読み込む
+dotenv.config();
+
 const client = new DiscordClient({
   intents: [
     GatewayIntentBits.Guilds,

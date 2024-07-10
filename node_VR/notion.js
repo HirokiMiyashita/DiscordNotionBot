@@ -1,5 +1,10 @@
 import { Client } from "@notionhq/client";
 
+import dotenv from "dotenv";
+
+// 環境変数を読み込む
+dotenv.config();
+
 const notion = new NotionClient({ auth: process.env.NOTION_API_KEY });
 const taskDatabaseId = process.env.TASK_DATABASE_ID;
 const userDatabaseId = process.env.USER_DATABASE_ID;
