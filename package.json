@@ -1,0 +1,14 @@
+{
+    "name": "root-project",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "concurrently \"npm run start-project1\" \"npm run start-project2\" \"npm run start-project3\" \"npm run start-project4\"",
+      "start-project1": "cd node_bon && npm start",
+      "start-project2": "cd node_obo && npm start",
+      "start-project3": "cd node_Raysee && npm start",
+      "start-project4": "cd node_VR && npm start"
+    },
+    "devDependencies": {
+      "concurrently": "^7.0.0"
+    }
+  }
